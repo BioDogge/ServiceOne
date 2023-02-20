@@ -33,7 +33,7 @@ namespace ServiceOne.Data
 			return _context.Orders.FirstOrDefault(o => o.Id == id);
 		}
 
-		public Product IsProductExist(int productId)
+		public Product ProductExist(int productId)
 		{
 			return _context.Products.FirstOrDefault(p => p.Id == productId);
 		}

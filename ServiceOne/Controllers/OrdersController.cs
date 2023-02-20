@@ -4,7 +4,7 @@ using ServiceOne.Models;
 
 namespace ServiceOne.Controllers
 {
-	[Route("api/[controller]")]
+	[Route("[controller]")]
 	[ApiController]
 	public class OrdersController : Controller
 	{
@@ -26,7 +26,7 @@ namespace ServiceOne.Controllers
 		[HttpPost("products/{productId}")]
 		public ActionResult AddOrder(Order order, int productId)
 		{
-			var product = _repository.IsProductExist(productId);
+			var product = _repository.ProductExist(productId);
 			if (product != null)
 				order.Products.Add(product);
 

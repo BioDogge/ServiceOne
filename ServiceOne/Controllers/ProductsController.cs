@@ -4,7 +4,7 @@ using ServiceOne.Models;
 
 namespace ServiceOne.Controllers
 {
-	[Route("api/[controller]")]
+	[Route("[controller]")]
 	[ApiController]
 	public class ProductsController : Controller
 	{

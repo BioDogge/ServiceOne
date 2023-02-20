@@ -10,7 +10,7 @@ namespace ServiceOne.Data
 		public Order GetOrderById(int id);
 		public void DeleteOrder(Order order);
 
-		public Product IsProductExist(int productId);
+		public Product ProductExist(int productId);
 
 		public bool SaveChanges();
 	}
