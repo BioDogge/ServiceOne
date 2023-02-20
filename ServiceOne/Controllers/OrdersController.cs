@@ -33,7 +33,7 @@ namespace ServiceOne.Controllers
 			_repository.CreateOrder(order);
 			_repository.SaveChanges();
 
-			return Ok();
+			return Ok(order);
 		}
 
 		[HttpDelete("{id}")]

@@ -1,4 +1,5 @@
-﻿using ServiceOne.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using ServiceOne.Models;
 
 namespace ServiceOne.Data
 {
@@ -11,6 +12,12 @@ namespace ServiceOne.Data
 			_context = context;
 		}
 
+		public void CreateProduct(Product product)
+		{
+			if (product != null)
+				_context.Products.Add(product);
+		}
+
 		public void DeleteProduct(Product product)
 		{
 			if (product != null)
@@ -19,7 +26,7 @@ namespace ServiceOne.Data
 
 		public IEnumerable<Product> GetAllProducts()
 		{
-			return _context.Products.ToList();
+			return _context.Products.Include(p => p.Orders).ToList();
 		}
 
 		public Product GetProductById(int id)

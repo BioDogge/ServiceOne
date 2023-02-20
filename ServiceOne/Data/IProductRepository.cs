@@ -6,6 +6,7 @@ namespace ServiceOne.Data
 	{
 		public IEnumerable<Product> GetAllProducts();
 		public Product GetProductById(int id);
+		public void CreateProduct(Product product);
 		public void DeleteProduct(Product product);
 
 		public bool SaveChanges();

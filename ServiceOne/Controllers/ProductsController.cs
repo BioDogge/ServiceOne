@@ -23,6 +23,15 @@ namespace ServiceOne.Controllers
 			return Ok(products);
 		}
 
+		[HttpPost]
+		public ActionResult CreateProduct(Product product)
+		{
+			_repository.CreateProduct(product);
+			_repository.SaveChanges();
+
+			return Ok(product);
+		}
+
 		[HttpDelete("{id}")]
 		public ActionResult Delete(int id)
 		{
