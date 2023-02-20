@@ -15,10 +15,6 @@ namespace ServiceOne.Data
 			}
 		}
 
-		/// <summary>
-		/// Добавление тестовых данных в базу данных.
-		/// </summary>
-		/// <param name="context"></param>
 		private static void SeedData(AppDbContext context)
 		{
 			if (!context.Products.Any() && !context.Orders.Any())

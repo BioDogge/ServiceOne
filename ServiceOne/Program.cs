@@ -32,6 +32,7 @@ namespace ServiceOne
 			app.UseEndpoints(endpoints =>
 				endpoints.MapControllers());
 
+			//Заполнение тестовыми данными.
 			PrepDb.PrepData(app); 
 
 			app.Run();
