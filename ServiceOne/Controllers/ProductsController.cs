@@ -1,35 +1,42 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using ServiceOne.Data;
+using ServiceOne.Dtos;
 using ServiceOne.Models;
 
 namespace ServiceOne.Controllers
 {
-	[Route("[controller]")]
+	[Route("api/[controller]")]
 	[ApiController]
 	public class ProductsController : Controller
 	{
 		private readonly IProductRepository _repository;
+		private readonly IMapper _mapper;
 
-		public ProductsController(IProductRepository repository)
+		public ProductsController(IProductRepository repository, IMapper mapper)
 		{
 			_repository = repository;
+			_mapper = mapper;
 		}
 
 		[HttpGet]
-		public ActionResult<IEnumerable<Product>> GetAllProducts()
+		public ActionResult<IEnumerable<ProductReadDto>> GetAllProducts()
 		{
 			var products = _repository.GetAllProducts();
 
-			return Ok(products);
+			return Ok(_mapper.Map<IEnumerable<ProductReadDto>>(products));
 		}
 
 		[HttpPost]
-		public ActionResult CreateProduct(Product product)
+		public ActionResult<ProductReadDto> CreateProduct(ProductCreateDto productCreateDto)
 		{
-			_repository.CreateProduct(product);
+			var productModel = _mapper.Map<Product>(productCreateDto);
+
+			_repository.CreateProduct(productModel);
 			_repository.SaveChanges();
 
-			return Ok(product);
+			var productReadDto = _mapper.Map<ProductReadDto>(productModel);
+			return Ok(productReadDto);
 		}
 
 		[HttpDelete("{id}")]

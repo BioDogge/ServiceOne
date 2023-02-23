@@ -22,6 +22,8 @@ namespace ServiceOne
 				s.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 			});
 
+			builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 			builder.Services.AddAuthorization();
 
 			var app = builder.Build();

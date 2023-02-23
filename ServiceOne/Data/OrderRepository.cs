@@ -33,9 +33,13 @@ namespace ServiceOne.Data
 			return _context.Orders.FirstOrDefault(o => o.Id == id);
 		}
 
-		public Product ProductExist(int productId)
+		public IEnumerable<Product> ProductExist(IEnumerable<int> productId)
 		{
-			return _context.Products.FirstOrDefault(p => p.Id == productId);
+			foreach (var id in productId)
+			{
+				if (_context.Products.Any(p => p.Id == id))
+					yield return _context.Products.FirstOrDefault(p => p.Id == id);
+			}
 		}
 
 		public bool SaveChanges()

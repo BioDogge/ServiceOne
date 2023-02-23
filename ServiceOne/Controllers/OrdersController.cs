@@ -1,39 +1,49 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using ServiceOne.Data;
+using ServiceOne.Dtos;
 using ServiceOne.Models;
 
 namespace ServiceOne.Controllers
 {
-	[Route("[controller]")]
+	[Route("api/[controller]")]
 	[ApiController]
 	public class OrdersController : Controller
 	{
 		private readonly IOrderRepository _repository;
+		private readonly IMapper _mapper;
 
-		public OrdersController(IOrderRepository repository)
+		public OrdersController(IOrderRepository repository, IMapper mapper)
 		{
 			_repository = repository;
+			_mapper = mapper;
 		}
 
 		[HttpGet]
-		public ActionResult<IEnumerable<Order>> GetAllOrders()
+		public ActionResult<IEnumerable<OrderReadDto>> GetAllOrders()
 		{
 			var orders = _repository.GetAllOrders();
 
-			return Ok(orders);
+			return Ok(_mapper.Map<IEnumerable<OrderReadDto>>(orders));
 		}
 
-		[HttpPost("products/{productId}")]
-		public ActionResult AddOrder(Order order, int productId)
+		[HttpPost]
+		public ActionResult<OrderReadDto> AddOrder(OrderCreateDto orderCreateDto)
 		{
-			var product = _repository.ProductExist(productId);
-			if (product != null)
-				order.Products.Add(product);
+			var productsExist = _repository.ProductExist(orderCreateDto.ProductId);
 
-			_repository.CreateOrder(order);
+			var orderModel = _mapper.Map<Order>(orderCreateDto);
+
+			foreach (var product in productsExist)
+			{
+				orderModel.Products.Add(product);
+			}
+
+			_repository.CreateOrder(orderModel);
 			_repository.SaveChanges();
 
-			return Ok(order);
+			var orderReadDto = _mapper.Map<OrderReadDto>(orderModel);
+			return Ok(orderReadDto);
 		}
 
 		[HttpDelete("{id}")]
