@@ -31,15 +31,9 @@ namespace ServiceOne.Controllers
 		public ActionResult<OrderReadDto> AddOrder(OrderCreateDto orderCreateDto)
 		{
 			var productsExist = _repository.ProductExist(orderCreateDto.ProductId);
-
 			var orderModel = _mapper.Map<Order>(orderCreateDto);
 
-			foreach (var product in productsExist)
-			{
-				orderModel.Products.Add(product);
-			}
-
-			_repository.CreateOrder(orderModel);
+			_repository.CreateOrder(orderModel, productsExist);
 			_repository.SaveChanges();
 
 			var orderReadDto = _mapper.Map<OrderReadDto>(orderModel);

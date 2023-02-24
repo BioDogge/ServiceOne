@@ -12,8 +12,16 @@ namespace ServiceOne.Data
 			_context = context;
 		}
 
-		public void CreateOrder(Order order)
+		public void CreateOrder(Order order, IEnumerable<Product> products)
 		{
+			if (products != null)
+			{
+				foreach (var product in products)
+				{
+					order.Products.Add(product);
+				}
+			}
+
 			_context.Orders.Add(order);
 		}
 

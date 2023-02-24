@@ -6,7 +6,7 @@ namespace ServiceOne.Data
 	{
 		public IEnumerable<Order> GetAllOrders();
 
-		public void CreateOrder(Order order);
+		public void CreateOrder(Order order, IEnumerable<Product> products);
 		public Order GetOrderById(int id);
 		public void DeleteOrder(Order order);
 
